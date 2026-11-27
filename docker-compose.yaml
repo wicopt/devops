@@ -15,8 +15,21 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./database/user-schema:/docker-entrypoint-initdb.d 
     networks:
-      - internal  
-
+      - internal 
+  user-service:
+    build: ./backend/user-service
+    ports:
+      - "8080:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://user-db:5432/${DB_DATABASE}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      user-db:
+        condition: service_healthy
+    networks:
+      - internal
+      - public
 networks:
   internal:
     driver: bridge
@@ -26,5 +39,3 @@ networks:
 
 volumes:
   postgres_data:  
-  rabbitmq_data:
-  backup_data:

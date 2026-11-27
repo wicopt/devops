@@ -1,7 +1,7 @@
 
 CREATE TABLE users (
     user_id       UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
-    username      VARCHAR(100)       NOT NULL,
+    username      VARCHAR(100) NOT NULL,
     first_name    VARCHAR(100) NOT NULL,
     last_name     VARCHAR(100),
     email         VARCHAR(100)       NOT NULL,
@@ -12,8 +12,7 @@ CREATE TABLE users (
     updated_at    TIMESTAMPTZ  NOT NULL DEFAULT now(),
 
     CONSTRAINT users_username_unique UNIQUE (username),
-    CONSTRAINT users_email_unique    UNIQUE (email),
-    CONSTRAINT users_username_format CHECK (username ~ '^[A-Za-z0-9_.-]{3,100}$')
+    CONSTRAINT users_email_unique    UNIQUE (email)
 );
 
 CREATE TABLE refresh_tokens (
